@@ -8,19 +8,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 @RestController
 @Api("Самый замечательный API")
 public class ApiController {
 
-    @GetMapping(value = "/getClient")
-    @ApiOperation("Получение клиента")
-    public Client getClient() {
-        return new Client("Sasha",  29, true);
+    public static List<Client> CLIENTS = new LinkedList<>();
+//            Arrays.asList(
+//            new Client("Sasha",  30, true),
+//            new Client("July",  27, true)
+//    );
+
+//    @GetMapping(value = "/getClient")
+//    @ApiOperation("Получение клиента")
+//    public Client getClient() {
+//        return new Client("Sasha",  29, true);
+//    }
+
+    @GetMapping(value = "/getClients")
+    @ApiOperation("Получение всех клиентов")
+    public List<Client> getClients() {
+        return CLIENTS;
     }
 
     @PostMapping(value = "/addClient")
     @ApiOperation("Добавлние клиента")
     public String addClient(@RequestBody Client client) {
+        CLIENTS.add(client);
         return String.format("Client %s was added", client.getName());
     }
 }
